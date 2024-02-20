@@ -18,3 +18,7 @@ conda activate ser
 ser --help
 ``` 
 
+## Install Pytorch
+```bash
+conda install pytorch torchvision -c pytorch
+``` 
