@@ -10,6 +10,8 @@ val_losses = []
 val_accuracies = []
 train_losses = []
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 def train_model(epochs, training_dataloader, validation_dataloader, model, optimizer):
     # train
     for epoch in range(epochs):
@@ -46,9 +48,9 @@ def train_model(epochs, training_dataloader, validation_dataloader, model, optim
                     f"Val Epoch: {epoch} | Avg Loss: {val_loss:.4f} | Accuracy: {val_acc}"
                 )
 
-                val_accuracies.append(val_lacc)
+                val_accuracies.append(val_acc)
                 val_losses.append(val_loss)
 
     print("Training completed!")
-    
+
     return train_losses, val_losses, val_accuracies
