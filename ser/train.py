@@ -5,14 +5,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+from datetime import date
 
-val_losses = []
-val_accuracies = []
-train_losses = []
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train_model(epochs, training_dataloader, validation_dataloader, model, optimizer):
+
+    val_losses = []
+    val_accuracies = []
+    train_losses = []
     # train
     for epoch in range(epochs):
         for i, (images, labels) in enumerate(training_dataloader):
@@ -53,4 +55,6 @@ def train_model(epochs, training_dataloader, validation_dataloader, model, optim
 
     print("Training completed!")
 
-    return train_losses, val_losses, val_accuracies
+    
+
+    return train_losses, val_losses, val_accuracies, model

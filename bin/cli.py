@@ -5,9 +5,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+from datetime import date, datetime
+import json
 
 PROJECT_ROOT = Path(__file__).parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
+MODEL_DIR = PROJECT_ROOT / "trained_models"
 
 import sys
 sys.path.append(".")
@@ -56,8 +59,23 @@ def train(
     training_dataloader, validation_dataloader = get_data(batch_size)
 
     # train
-    train_losses, val_losses, val_accuracies = train_model(epochs, training_dataloader, validation_dataloader, model, optimizer)
+    train_losses, val_losses, val_accuracies, trained_model = train_model(epochs, training_dataloader, validation_dataloader, model, optimizer)
 
+    # saving model
+    model_path = str(MODEL_DIR) + "/" + name + "_" + str(date.today()) + ".pth"
+    torch.save(trained_model.state_dict(), model_path)
+
+    hyp_dict = {
+        "name": name,
+        "date": str(datetime.now()),
+        "epochs": epochs,
+        "learning rate": learning_rate,
+        "batch size": batch_size
+    }
+
+    json_path = str(MODEL_DIR) + "/" + name + "_" + str(date.today()) + ".json"
+    with open(json_path, 'w') as f:
+        json.dump(hyp_dict, f)
 
 @main.command()
 def infer():
