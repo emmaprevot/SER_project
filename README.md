@@ -1,6 +1,10 @@
 # SER
 Software Engineering for Research
 
+Health Data Science CDT, University of Oxford
+
+Each branch track a specific assignment
+
 ## Installation
 ```bash
 conda create -n ser python=3.9
