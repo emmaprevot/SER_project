@@ -59,8 +59,15 @@ def train(
 
 
 @main.command()
-def infer():
-    run_path = Path("./path/to/one/of/your/training/runs")
+def infer(
+    exp_name: str = typer.Option(
+        ..., "-n", "--name", help="Name of experiment to load for inference."
+    ),
+    exp_timestamp: str = typer.Option(
+        ..., "-n", "--timestamp", help="Timestamp of experiment to load for inference."
+    ),
+):
+    run_path = RESULTS_DIR / exp_name 
     label = 6
 
     # select image to run inference for
