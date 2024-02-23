@@ -18,3 +18,10 @@ def pixel_to_char(pixel):
         return "."
     else:
         return " "
+    
+    
+def _select_test_image(dataloader, label):
+    images, labels = next(iter(dataloader))
+    while labels[0].item() != label:
+        images, labels = next(iter(dataloader))
+    return images

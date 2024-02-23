@@ -4,6 +4,7 @@ from pathlib import Path
 import typer
 import torch
 import git
+import json
 
 from ser.train import train as run_train
 from ser.infer import infer as run_inference
@@ -68,14 +69,22 @@ def infer(
     exp_timestamp: str = typer.Option(
         ..., "-n", "--timestamp", help="Timestamp of experiment to load for inference."
     ),
+    label: int = typer.Option(
+        6, "-n", "--label", help="Label for inference."
+    ),
 ):
     run_path = RESULTS_DIR / exp_name / exp_timestamp
-    label = 6
+    # load the model and parameters
+    model = torch.load(run_path / "model.pt")
+    f = open(run_path / "params.json")
+    params = json.load(f)
+    f.close()
     
     # Inference !
     
     run_inference(
-        run_path,
+        model,
+        params,
         label,
         test_dataloader(1, transforms(normalize))
     )
