@@ -77,7 +77,7 @@ def infer(
         True, "-n", "--flip", help="Flip images."
     ),
 ):
-     """Run the inferences."""
+    """Run the inferences."""
     run_path = RESULTS_DIR / exp_name / exp_timestamp
     # load the model and parameters
     model = torch.load(run_path / "model.pt")
@@ -106,7 +106,7 @@ def infer(
 
 @main.command()
 def print_summary_table():
-     """Print a table of all the experiments and their runs."""
+    """Print a table of all the experiments and their runs."""
     params_list = []
     result_folder = Path(RESULTS_DIR)
     for item in result_folder.iterdir():

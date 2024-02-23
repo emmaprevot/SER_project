@@ -2,6 +2,8 @@ from torch.utils.data import DataLoader
 from torchvision import datasets
 
 from ser.constants import DATA_DIR
+import umap
+
 
 
 def train_dataloader(batch_size, transforms):

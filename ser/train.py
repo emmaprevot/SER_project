@@ -10,6 +10,18 @@ from ser.model import Net
 def train(run_path, params, train_dataloader, val_dataloader, device):
     # setup model
     model = Net().to(device)
+    
+    # a dict to store the activations
+    #activation = {}
+    #def getActivation(name):
+    #    # the hook signature
+    #    def hook(model, input, output):
+    #        activation[name] = output.detach()
+    #    return hook
+    
+    # register forward hooks on the layers of choice
+    #h = model.fc2.register_forward_hook(getActivation('comp'))
+
     #resnet18 = models.resnet18()
     #alexnet = models.alexnet()
     #densenet = models.densenet161()
@@ -31,6 +43,7 @@ def train(run_path, params, train_dataloader, val_dataloader, device):
             # save model and save model params
             torch.save(model, run_path / "model.pt")
     
+    #h.remove()
     print( f"The best validation accuracy was {best_accuracy} at epoch {epoch}")
 
 
