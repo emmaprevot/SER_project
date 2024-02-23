@@ -1,3 +1,5 @@
+from ser.constants import RESULTS_DIR
+
 
 def generate_ascii_art(pixels):
     ascii_art = []

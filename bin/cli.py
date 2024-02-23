@@ -5,6 +5,7 @@ import typer
 import torch
 import git
 import json
+import pandas as pd
 
 from ser.train import train as run_train
 from ser.infer import infer as run_inference
@@ -76,6 +77,7 @@ def infer(
         True, "-n", "--flip", help="Flip images."
     ),
 ):
+     """Run the inferences."""
     run_path = RESULTS_DIR / exp_name / exp_timestamp
     # load the model and parameters
     model = torch.load(run_path / "model.pt")
@@ -84,11 +86,6 @@ def infer(
     f.close()
     
     # Inference !
-    
-    # TODO `ts` is a list of transformations that will be applied to the loaded
-    # image. This works... but in order to add a transformation, or change one,
-    # we now have to come and edit the code... which sucks. What if we could
-    # configure the transformations via the cli?
     
     ts = [normalize]
         
@@ -104,3 +101,25 @@ def infer(
         label,
         dataloader
     )
+    
+    
+
+@main.command()
+def print_summary_table():
+     """Print a table of all the experiments and their runs."""
+    params_list = []
+    result_folder = Path(RESULTS_DIR)
+    for item in result_folder.iterdir():
+        if item.is_dir():
+            for sub_item in item.iterdir():
+                if sub_item.is_dir():
+                    for sub_sub_item in sub_item.iterdir():
+                        if sub_sub_item.is_file():
+                            if ".json" in str(sub_sub_item):
+                                f = open(str(sub_sub_item))
+                                params = json.load(f)
+                                params_list.append(params)
+                                f.close()
+    df = pd.DataFrame(params_list)
+    print(df)
+         
